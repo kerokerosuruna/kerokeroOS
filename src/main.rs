@@ -1,7 +1,13 @@
 #![no_std]
 #![no_main]
 
+
+//window
 //cargo rustc -- -C link-args="/ENTRY:_start /SUBSYSTEM:console"
+
+//linux
+//cargo rustc -- -C link-arg=-nostartfiles
+
 
 use core::panic::PanicInfo;
 
