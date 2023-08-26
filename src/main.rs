@@ -1,18 +1,21 @@
 #![no_std]
 #![no_main]
 
-
-//window
-//cargo rustc -- -C link-args="/ENTRY:_start /SUBSYSTEM:console"
-
-//linux
-//cargo rustc -- -C link-arg=-nostartfiles
-
-
 use core::panic::PanicInfo;
+
+static HELLO: &[u8] = b"Hello World!";
 
 #[no_mangle]
 pub extern "C" fn _start() -> ! { //enter
+    let vga_buff = 0xb8000 as *mut u8;
+
+
+    for (i, &byte) in HELLO.iter().enumerate() {
+        unsafe {
+            *vga_buff.offset(i as isize * 2) = byte;
+            *vga_buff.offset(i as isize * 2 + 1) = 0xb;
+        }
+    }
     loop {}
 }
 
